@@ -1,0 +1,17 @@
+The CTE (Common Table Expression) will help us figure out the average amount paid to customers
+
+WITH average_amount_paid_cte (customer_id, first_name, last_name, country, city, SUM) AS
+
+(SELECT A.customer_id, B.first_name, B.last_name, E.country, D.city, SUM(A.amount) 
+FROM payment A 
+INNER JOIN customer B ON A.customer_id = B.customer_id
+INNER JOIN address C ON B.address_id = c.address_id
+INNER JOIN city D ON C.city_id = D.city_id
+INNER JOIN country E ON D.country_id = E.country_id
+WHERE city IN ('Aurora', 'Atlixco', 'Xintai', 'Adoni', 'Dhule', 
+			   'Kurashiki', 'Pingxiang', 'Sivas', 'Celeya', 'So Leopoldo')
+GROUP BY A.customer_id, first_name, last_name, country, city
+ORDER BY SUM DESC
+LIMIT 5) 
+SELECT AVG(SUM)
+FROM average_amount_paid_cte
